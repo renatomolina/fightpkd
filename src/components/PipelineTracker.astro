@@ -84,7 +84,7 @@ function getPhaseColor(phase: number) {
 }
 
 const statusIcons: Record<string, string> = {
-  recruiting: 'person',
+  recruiting: 'search',
   not_yet_recruiting: 'clock',
   active_not_recruiting: 'arrow',
   enrolling_by_invitation: 'mail',
@@ -132,7 +132,7 @@ const statusIcons: Record<string, string> = {
                   <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
                   <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 -ml-1" style={`background: ${sBar.fill}`}>
                     {drug.status === 'recruiting' ? (
-                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'not_yet_recruiting' ? (
                       <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'enrolling_by_invitation' ? (
@@ -166,7 +166,7 @@ const statusIcons: Record<string, string> = {
                   <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
                   <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 -ml-1" style={`background: ${sBar.fill}`}>
                     {drug.status === 'recruiting' ? (
-                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'not_yet_recruiting' ? (
                       <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'enrolling_by_invitation' ? (
@@ -200,7 +200,7 @@ const statusIcons: Record<string, string> = {
                   <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
                   <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 -ml-1" style={`background: ${sBar.fill}`}>
                     {drug.status === 'recruiting' ? (
-                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'not_yet_recruiting' ? (
                       <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'enrolling_by_invitation' ? (
@@ -266,7 +266,7 @@ const statusIcons: Record<string, string> = {
                   <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
                   <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${sBar.fill}`}>
                     {drug.status === 'recruiting' ? (
-                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'not_yet_recruiting' ? (
                       <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'enrolling_by_invitation' ? (
@@ -297,7 +297,7 @@ const statusIcons: Record<string, string> = {
                   <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
                   <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${sBar.fill}`}>
                     {drug.status === 'recruiting' ? (
-                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'not_yet_recruiting' ? (
                       <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'enrolling_by_invitation' ? (
@@ -328,7 +328,7 @@ const statusIcons: Record<string, string> = {
                   <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
                   <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${sBar.fill}`}>
                     {drug.status === 'recruiting' ? (
-                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'not_yet_recruiting' ? (
                       <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
                     ) : drug.status === 'enrolling_by_invitation' ? (
@@ -354,7 +354,7 @@ const statusIcons: Record<string, string> = {
     <div class="pt-2 border-t border-gray-100 flex flex-wrap items-center gap-3 text-xs text-gray-400">
       <div class="flex items-center gap-1">
         <div class="w-4 h-4 rounded-full flex items-center justify-center" style="background: #10b981">
-          <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+          <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
         </div>
         <span>Recruiting</span>
       </div>
@@ -381,7 +381,7 @@ const statusIcons: Record<string, string> = {
   <div class="hidden md:flex mt-4 pt-4 border-t border-gray-100 flex-wrap items-center gap-4 text-xs text-gray-500">
     <div class="flex items-center gap-1.5">
       <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: #10b981">
-        <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+        <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
       </div>
       <span>Recruiting</span>
     </div>
