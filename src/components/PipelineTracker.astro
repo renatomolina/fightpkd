@@ -34,6 +34,18 @@ const phaseColors: Record<number, { bg: string; fill: string }> = {
 const completedColor = { bg: '#d1fae5', fill: '#10b981' };
 const inProgressFillPercent = '55%';
 
+const statusBarColors: Record<string, { bg: string; fill: string }> = {
+  recruiting: { bg: '#d1fae5', fill: '#10b981' },
+  not_yet_recruiting: { bg: '#fef3c7', fill: '#f59e0b' },
+  active_not_recruiting: { bg: '#e0f2fe', fill: '#0ea5e9' },
+  enrolling_by_invitation: { bg: '#ede9fe', fill: '#8b5cf6' },
+  completed: { bg: '#f3f4f6', fill: '#6b7280' },
+};
+
+function getStatusBar(status: string) {
+  return statusBarColors[status] || statusBarColors.recruiting;
+}
+
 const statusLabels: Record<string, string> = {
   recruiting: 'Recruiting',
   not_yet_recruiting: 'Not Yet Recruiting',
@@ -57,6 +69,14 @@ function getBadge(status: string) {
 function getPhaseColor(phase: number) {
   return phaseColors[phase] || phaseColors[1];
 }
+
+const statusIcons: Record<string, string> = {
+  recruiting: 'person',
+  not_yet_recruiting: 'clock',
+  active_not_recruiting: 'arrow',
+  enrolling_by_invitation: 'mail',
+  completed: 'check',
+};
 ---
 
 <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 mb-8">
@@ -76,11 +96,9 @@ function getPhaseColor(phase: number) {
     <div class="border-t border-gray-100 mb-1"></div>
 
     {sortedDrugs.map((drug) => {
-      const p1 = getPhaseColor(1);
-      const p2 = getPhaseColor(2);
-      const p3 = getPhaseColor(3);
       const isComplete = drug.status === 'completed';
       const fillWidth = isComplete ? '100%' : inProgressFillPercent;
+      const sBar = getStatusBar(drug.status);
       return (
         <div class="grid grid-cols-[180px_1fr_1fr_1fr_130px] gap-0 items-center py-2 px-2 hover:bg-gray-50 rounded-lg transition-colors">
           <div class="font-medium text-sm text-gray-900 truncate pr-3" title={drug.name}>
@@ -99,11 +117,19 @@ function getPhaseColor(phase: number) {
                 </div>
               ) : drug.phase === 1 ? (
                 <div class="w-full flex items-center">
-                  <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
-                  <div class={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1 `} style={`background: ${completedColor.fill}`}>
-                    <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                  <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
+                  <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1" style={`background: ${sBar.fill}`}>
+                    {drug.status === 'recruiting' ? (
+                      <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                    ) : drug.status === 'not_yet_recruiting' ? (
+                      <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                    ) : drug.status === 'enrolling_by_invitation' ? (
+                      <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                    ) : (
+                      <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                    )}
                   </div>
-                  <div class="flex-1 h-2.5 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
+                  <div class="flex-1 h-2.5 rounded-r-full" style={`background: ${sBar.bg}`}></div>
                 </div>
               ) : (
                 <div class="w-full h-1 bg-gray-100 rounded-full"></div>
@@ -123,11 +149,19 @@ function getPhaseColor(phase: number) {
                 </div>
               ) : drug.phase === 2 ? (
                 <div class="w-full flex items-center">
-                  <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
-                  <div class={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1 `} style={`background: ${completedColor.fill}`}>
-                    <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                  <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
+                  <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1" style={`background: ${sBar.fill}`}>
+                    {drug.status === 'recruiting' ? (
+                      <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                    ) : drug.status === 'not_yet_recruiting' ? (
+                      <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                    ) : drug.status === 'enrolling_by_invitation' ? (
+                      <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                    ) : (
+                      <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                    )}
                   </div>
-                  <div class="flex-1 h-2.5 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
+                  <div class="flex-1 h-2.5 rounded-r-full" style={`background: ${sBar.bg}`}></div>
                 </div>
               ) : (
                 <div class="w-full h-1 bg-gray-100 rounded-full"></div>
@@ -147,11 +181,19 @@ function getPhaseColor(phase: number) {
                 </div>
               ) : drug.phase === 3 ? (
                 <div class="w-full flex items-center">
-                  <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
-                  <div class={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1 `} style={`background: ${completedColor.fill}`}>
-                    <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                  <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
+                  <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1" style={`background: ${sBar.fill}`}>
+                    {drug.status === 'recruiting' ? (
+                      <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                    ) : drug.status === 'not_yet_recruiting' ? (
+                      <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                    ) : drug.status === 'enrolling_by_invitation' ? (
+                      <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                    ) : (
+                      <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                    )}
                   </div>
-                  <div class="flex-1 h-2.5 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
+                  <div class="flex-1 h-2.5 rounded-r-full" style={`background: ${sBar.bg}`}></div>
                 </div>
               ) : (
                 <div class="w-full h-1 bg-gray-100 rounded-full"></div>
@@ -176,6 +218,7 @@ function getPhaseColor(phase: number) {
     {sortedDrugs.map((drug) => {
       const isComplete = drug.status === 'completed';
       const fillWidth = isComplete ? '100%' : inProgressFillPercent;
+      const sBar = getStatusBar(drug.status);
       return (
         <div class="py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors">
           <div class="flex items-center justify-between mb-1.5">
@@ -196,11 +239,19 @@ function getPhaseColor(phase: number) {
                 </div>
               ) : drug.phase === 1 ? (
                 <div class="w-full flex items-center">
-                  <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
-                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${completedColor.fill}`}>
-                    <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                  <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${sBar.fill}`}>
+                    {drug.status === 'recruiting' ? (
+                      <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                    ) : drug.status === 'not_yet_recruiting' ? (
+                      <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                    ) : drug.status === 'enrolling_by_invitation' ? (
+                      <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                    ) : (
+                      <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                    )}
                   </div>
-                  <div class="flex-1 h-2 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
+                  <div class="flex-1 h-2 rounded-r-full" style={`background: ${sBar.bg}`}></div>
                 </div>
               ) : (
                 <div class="w-full h-1 bg-gray-100 rounded-full"></div>
@@ -217,11 +268,19 @@ function getPhaseColor(phase: number) {
                 </div>
               ) : drug.phase === 2 ? (
                 <div class="w-full flex items-center">
-                  <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
-                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${completedColor.fill}`}>
-                    <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                  <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${sBar.fill}`}>
+                    {drug.status === 'recruiting' ? (
+                      <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                    ) : drug.status === 'not_yet_recruiting' ? (
+                      <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                    ) : drug.status === 'enrolling_by_invitation' ? (
+                      <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                    ) : (
+                      <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                    )}
                   </div>
-                  <div class="flex-1 h-2 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
+                  <div class="flex-1 h-2 rounded-r-full" style={`background: ${sBar.bg}`}></div>
                 </div>
               ) : (
                 <div class="w-full h-1 bg-gray-100 rounded-full"></div>
@@ -238,11 +297,19 @@ function getPhaseColor(phase: number) {
                 </div>
               ) : drug.phase === 3 ? (
                 <div class="w-full flex items-center">
-                  <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
-                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${completedColor.fill}`}>
-                    <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                  <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${sBar.fill}`}></div>
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${sBar.fill}`}>
+                    {drug.status === 'recruiting' ? (
+                      <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+                    ) : drug.status === 'not_yet_recruiting' ? (
+                      <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                    ) : drug.status === 'enrolling_by_invitation' ? (
+                      <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                    ) : (
+                      <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                    )}
                   </div>
-                  <div class="flex-1 h-2 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
+                  <div class="flex-1 h-2 rounded-r-full" style={`background: ${sBar.bg}`}></div>
                 </div>
               ) : (
                 <div class="w-full h-1 bg-gray-100 rounded-full"></div>
@@ -253,19 +320,25 @@ function getPhaseColor(phase: number) {
       );
     })}
 
-    {/* Mobile phase legend */}
-    <div class="pt-2 border-t border-gray-100 flex items-center gap-4 text-xs text-gray-400">
+    {/* Mobile legend */}
+    <div class="pt-2 border-t border-gray-100 flex flex-wrap items-center gap-3 text-xs text-gray-400">
       <div class="flex items-center gap-1">
-        <div class="w-4 h-4 rounded-full flex items-center justify-center" style={`background: ${completedColor.fill}`}>
+        <div class="w-4 h-4 rounded-full flex items-center justify-center" style="background: #10b981">
+          <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+        </div>
+        <span>Recruiting</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <div class="w-4 h-4 rounded-full flex items-center justify-center" style="background: #f59e0b">
+          <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+        </div>
+        <span>Not Yet</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <div class="w-4 h-4 rounded-full flex items-center justify-center" style="background: #10b981">
           <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
         </div>
         <span>Done</span>
-      </div>
-      <div class="flex items-center gap-1">
-        <div class="w-4 h-4 rounded-full flex items-center justify-center" style={`background: ${completedColor.fill}`}>
-          <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
-        </div>
-        <span>In Progress</span>
       </div>
       <div class="flex items-center gap-1">
         <div class="w-4 h-1 bg-gray-100 rounded-full"></div>
@@ -275,24 +348,37 @@ function getPhaseColor(phase: number) {
   </div>
 
   <!-- Desktop legend -->
-  <div class="hidden md:flex mt-4 pt-4 border-t border-gray-100 flex-wrap items-center gap-5 text-xs text-gray-500">
-    <span class="font-medium text-gray-600">Phases:</span>
+  <div class="hidden md:flex mt-4 pt-4 border-t border-gray-100 flex-wrap items-center gap-4 text-xs text-gray-500">
     <div class="flex items-center gap-1.5">
-      <div class="w-8 h-2.5 rounded-full" style="background: #0d9488"></div>
-      <span>Phase 1</span>
+      <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: #10b981">
+        <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
+      </div>
+      <span>Recruiting</span>
     </div>
     <div class="flex items-center gap-1.5">
-      <div class="w-8 h-2.5 rounded-full" style="background: #2563eb"></div>
-      <span>Phase 2</span>
+      <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: #f59e0b">
+        <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+      </div>
+      <span>Not Yet Recruiting</span>
     </div>
     <div class="flex items-center gap-1.5">
-      <div class="w-8 h-2.5 rounded-full" style="background: #7c3aed"></div>
-      <span>Phase 3</span>
+      <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: #8b5cf6">
+        <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+      </div>
+      <span>By Invitation</span>
+    </div>
+    <div class="flex items-center gap-1.5">
+      <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: #0ea5e9">
+        <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+      </div>
+      <span>Active</span>
     </div>
     <span class="text-gray-300">|</span>
     <div class="flex items-center gap-1.5">
-      <div class="w-8 h-2.5 rounded-full" style="background: #10b981"></div>
-      <span>Completed</span>
+      <div class="w-5 h-5 rounded-full flex items-center justify-center" style="background: #10b981">
+        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+      </div>
+      <span>Phase Complete</span>
     </div>
     <div class="flex items-center gap-1.5">
       <div class="w-8 h-1 bg-gray-100 rounded-full"></div>
