@@ -136,6 +136,22 @@ When searching, use these alternative names:
 | Empagliflozin | EMPA-PKD, SIDIA, Jardiance |
 | Metformin | IMPEDE-PKD, TAME-PKD |
 
+## How to Update Homepage Stats
+
+The homepage (`src/pages/index.astro`) displays 4 stat cards. Three are computed automatically from the JSON data. The fourth — "Studies Published in 2026" — must be updated manually:
+
+1. **Fetch the count from PubMed:**
+   ```
+   https://pubmed.ncbi.nlm.nih.gov/?term=polycystic+kidney+disease&filter=dates.2026%2F1%2F1-2026%2F12%2F31
+   ```
+   Look for the total results count at the top of the search results page.
+
+2. **Update the number** in `src/pages/index.astro` (search for the `<p>` tag with the number, around line 96).
+
+3. **Update the `lastUpdated` variable** at the top of the file to the current date.
+
+The stat card links to this same PubMed URL so users can verify the number themselves.
+
 ## Update Frequency Recommendation
 
 - **Drug pipeline:** Monthly — trial statuses change frequently
