@@ -100,7 +100,7 @@ function getPhaseColor(phase: number) {
               ) : drug.phase === 1 ? (
                 <div class="w-full flex items-center">
                   <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
-                  <div class={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1 ${drug.status === 'recruiting' ? 'animate-pulse' : ''}`} style={`background: ${completedColor.fill}`}>
+                  <div class={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1 `} style={`background: ${completedColor.fill}`}>
                     <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
                   </div>
                   <div class="flex-1 h-2.5 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
@@ -124,7 +124,7 @@ function getPhaseColor(phase: number) {
               ) : drug.phase === 2 ? (
                 <div class="w-full flex items-center">
                   <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
-                  <div class={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1 ${drug.status === 'recruiting' ? 'animate-pulse' : ''}`} style={`background: ${completedColor.fill}`}>
+                  <div class={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1 `} style={`background: ${completedColor.fill}`}>
                     <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
                   </div>
                   <div class="flex-1 h-2.5 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
@@ -148,7 +148,7 @@ function getPhaseColor(phase: number) {
               ) : drug.phase === 3 ? (
                 <div class="w-full flex items-center">
                   <div class="h-2.5 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
-                  <div class={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1 ${drug.status === 'recruiting' ? 'animate-pulse' : ''}`} style={`background: ${completedColor.fill}`}>
+                  <div class={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 -ml-1 `} style={`background: ${completedColor.fill}`}>
                     <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
                   </div>
                   <div class="flex-1 h-2.5 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
@@ -172,51 +172,105 @@ function getPhaseColor(phase: number) {
   </div>
 
   <!-- Mobile: compact vertical list -->
-  <div class="md:hidden space-y-2">
+  <div class="md:hidden space-y-3">
     {sortedDrugs.map((drug) => {
-      const p1 = getPhaseColor(1);
-      const p2 = getPhaseColor(2);
-      const p3 = getPhaseColor(3);
+      const isComplete = drug.status === 'completed';
+      const fillWidth = isComplete ? '100%' : inProgressFillPercent;
       return (
-        <div class="flex items-center gap-3 py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors">
-          {/* Phase dots */}
-          <div class="flex items-center gap-1 shrink-0">
-            <div class="w-3 h-3 rounded-full border-2" style={`${drug.phase >= 1 ? `background: ${drug.phase === 1 ? p1.fill : completedColor.fill}; border-color: ${drug.phase === 1 ? p1.fill : completedColor.fill}` : 'background: white; border-color: #e5e7eb'}`}></div>
-            <div class="w-2 h-0.5 rounded-full" style={`background: ${drug.phase >= 2 ? completedColor.fill : '#e5e7eb'}`}></div>
-            <div class="w-3 h-3 rounded-full border-2" style={`${drug.phase >= 2 ? `background: ${drug.phase === 2 ? p2.fill : completedColor.fill}; border-color: ${drug.phase === 2 ? p2.fill : completedColor.fill}` : 'background: white; border-color: #e5e7eb'}`}></div>
-            <div class="w-2 h-0.5 rounded-full" style={`background: ${drug.phase >= 3 ? completedColor.fill : '#e5e7eb'}`}></div>
-            <div class="w-3 h-3 rounded-full border-2" style={`${drug.phase >= 3 ? `background: ${drug.phase === 3 ? p3.fill : completedColor.fill}; border-color: ${drug.phase === 3 ? p3.fill : completedColor.fill}` : 'background: white; border-color: #e5e7eb'}`}></div>
-          </div>
-
-          {/* Drug name */}
-          <div class="flex-1 min-w-0">
+        <div class="py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors">
+          <div class="flex items-center justify-between mb-1.5">
             <p class="text-sm font-medium text-gray-900 truncate">{drug.name}</p>
+            <span class={`shrink-0 ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getBadge(drug.status)}`}>
+              {statusLabels[drug.status] || drug.status}
+            </span>
           </div>
-
-          {/* Status badge */}
-          <span class={`shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getBadge(drug.status)}`}>
-            {drug.status === 'recruiting' && <span class="w-1.5 h-1.5 rounded-full mr-1 animate-pulse" style={`background: ${statusDotColors[drug.status]}`}></span>}
-            {statusLabels[drug.status] || drug.status}
-          </span>
+          <div class="flex items-center gap-0.5">
+            {/* Phase 1 */}
+            <div class="flex-1 h-4 flex items-center">
+              {drug.phase > 1 ? (
+                <div class="w-full flex items-center">
+                  <div class="flex-1 h-2 rounded-l-full" style={`background: ${completedColor.fill}`}></div>
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${completedColor.fill}`}>
+                    <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                  </div>
+                </div>
+              ) : drug.phase === 1 ? (
+                <div class="w-full flex items-center">
+                  <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${completedColor.fill}`}>
+                    <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                  </div>
+                  <div class="flex-1 h-2 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
+                </div>
+              ) : (
+                <div class="w-full h-1 bg-gray-100 rounded-full"></div>
+              )}
+            </div>
+            {/* Phase 2 */}
+            <div class="flex-1 h-4 flex items-center">
+              {drug.phase > 2 ? (
+                <div class="w-full flex items-center">
+                  <div class="flex-1 h-2 rounded-l-full" style={`background: ${completedColor.fill}`}></div>
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${completedColor.fill}`}>
+                    <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                  </div>
+                </div>
+              ) : drug.phase === 2 ? (
+                <div class="w-full flex items-center">
+                  <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${completedColor.fill}`}>
+                    <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                  </div>
+                  <div class="flex-1 h-2 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
+                </div>
+              ) : (
+                <div class="w-full h-1 bg-gray-100 rounded-full"></div>
+              )}
+            </div>
+            {/* Phase 3 */}
+            <div class="flex-1 h-4 flex items-center">
+              {drug.phase > 3 ? (
+                <div class="w-full flex items-center">
+                  <div class="flex-1 h-2 rounded-l-full" style={`background: ${completedColor.fill}`}></div>
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${completedColor.fill}`}>
+                    <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                  </div>
+                </div>
+              ) : drug.phase === 3 ? (
+                <div class="w-full flex items-center">
+                  <div class="h-2 rounded-l-full" style={`width: ${fillWidth}; background: ${completedColor.fill}`}></div>
+                  <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 -ml-0.5" style={`background: ${completedColor.fill}`}>
+                    <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+                  </div>
+                  <div class="flex-1 h-2 rounded-r-full" style={`background: ${completedColor.bg}`}></div>
+                </div>
+              ) : (
+                <div class="w-full h-1 bg-gray-100 rounded-full"></div>
+              )}
+            </div>
+          </div>
         </div>
       );
     })}
 
     {/* Mobile phase legend */}
-    <div class="pt-2 border-t border-gray-100 flex items-center gap-3 text-xs text-gray-400">
-      <div class="flex items-center gap-0.5">
-        <div class="w-2.5 h-2.5 rounded-full" style="background: #0d9488"></div>
-        <span>P1</span>
+    <div class="pt-2 border-t border-gray-100 flex items-center gap-4 text-xs text-gray-400">
+      <div class="flex items-center gap-1">
+        <div class="w-4 h-4 rounded-full flex items-center justify-center" style={`background: ${completedColor.fill}`}>
+          <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+        </div>
+        <span>Done</span>
       </div>
-      <div class="flex items-center gap-0.5">
-        <div class="w-2.5 h-2.5 rounded-full" style="background: #2563eb"></div>
-        <span>P2</span>
+      <div class="flex items-center gap-1">
+        <div class="w-4 h-4 rounded-full flex items-center justify-center" style={`background: ${completedColor.fill}`}>
+          <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <span>In Progress</span>
       </div>
-      <div class="flex items-center gap-0.5">
-        <div class="w-2.5 h-2.5 rounded-full" style="background: #7c3aed"></div>
-        <span>P3</span>
+      <div class="flex items-center gap-1">
+        <div class="w-4 h-1 bg-gray-100 rounded-full"></div>
+        <span>Upcoming</span>
       </div>
-      <span class="ml-1">colored = current phase</span>
     </div>
   </div>
 
