@@ -6,6 +6,8 @@ import therapies from '../data/therapies.json';
 const recruitingCount = drugs.filter(d => d.status === 'recruiting').length;
 const totalDrugs = drugs.length;
 const completedTherapies = therapies.filter(t => t.status === 'completed').length;
+const ongoingStudies = therapies.filter(t => t.status === 'in_progress').length;
+const lastUpdated = 'May 21, 2026';
 ---
 
 <BaseLayout title="Home" description="PKD Cure Tracker — Tracking the drug development pipeline and therapeutic research for Polycystic Kidney Disease patients.">
@@ -38,8 +40,11 @@ const completedTherapies = therapies.filter(t => t.status === 'completed').lengt
   </section>
 
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-10 z-10">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+    <div class="mb-3 text-right">
+      <span class="text-xs text-gray-400">Last updated: {lastUpdated}</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+      <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center">
             <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,7 +58,7 @@ const completedTherapies = therapies.filter(t => t.status === 'completed').lengt
         </div>
       </div>
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,7 +72,21 @@ const completedTherapies = therapies.filter(t => t.status === 'completed').lengt
         </div>
       </div>
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-gray-900">{ongoingStudies}</p>
+            <p class="text-sm text-gray-500">Studies In Progress</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
             <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
