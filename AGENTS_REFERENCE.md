@@ -107,6 +107,44 @@ Non-drug therapeutic interventions studied for PKD.
 
 4. If a new therapy study is published, add a new entry
 
+### `src/data/keto-studies.json`
+Dedicated research pages for ketogenic/metabolic intervention studies in PKD.
+
+**Schema:**
+```json
+{
+  "study-id": {
+    "title": "string (study title)",
+    "subtitle": "string (one-line summary)",
+    "type": "string (clinical_trial | observational | preclinical | post_hoc)",
+    "status": "string (completed | interim | recruiting)",
+    "date": "string (month year or year)",
+    "presentation": "string (conference name, optional)",
+    "publication": "string (journal name, optional)",
+    "doi": "string (DOI, optional)",
+    "authors": ["string array"],
+    "institution": "string",
+    "design": "string (study design paragraph)",
+    "intervention": "string (intervention description)",
+    "results": [{"label": "string", "value": "string", "detail": "string", "positive": boolean}],
+    "comparison": "string (context vs other treatments, optional)",
+    "conclusion": "string (significance paragraph)",
+    "tags": ["string array"]
+  }
+}
+```
+
+**Current studies (9):**
+- `juntendo-12-month` — WCN 2026, first kidney volume decrease in ADPKD
+- `juntendo-3-month` — ASN 2025, controlled study, -5.01% TKV
+- `cleveland-clinic` — NCT07454174, independent validation (recruiting)
+- `ren-nu-real-world` — 103 patients, Frontiers in Nutrition 2025
+- `keto-adpkd-post-hoc` — Re-analysis of Cologne RCT
+- `ketosis-cell-metabolism-2019` — Landmark preclinical paper
+- `food-restriction-2016` — First dietary intervention evidence
+- `crystals-citrate-2019` — JCI, rationale for citrate
+- `ketosis-diabetic-ckd` — 262 patients, Virta Health
+
 ## How to Update the Keto Page
 
 The keto page (`src/pages/keto.astro`) is a long-form article. To update it:
@@ -114,7 +152,15 @@ The keto page (`src/pages/keto.astro`) is a long-form article. To update it:
 1. Search for new publications from Weimbs lab, Mueller group, or DIPAK consortium
 2. Check for new clinical trial registrations with "ketogenic" or "ketone" + "polycystic kidney"
 3. Edit the relevant section in the Astro file directly
-4. Key sections: KETO-ADPKD results, KetoCitra/Ren-Nu data, preclinical evidence
+4. Key sections: Juntendo trial, KETO-ADPKD results, KetoCitra/Ren-Nu data, preclinical evidence
+
+## How to Add a New Keto Research Study
+
+1. Add a new entry to `src/data/keto-studies.json` following the schema above
+2. The dynamic route `src/pages/research/[id].astro` will automatically generate the page
+3. Update `src/pages/keto.astro` if the study is significant enough for the overview page
+4. Consider updating `src/data/therapies.json` if it's a new clinical trial
+5. Link from relevant sections on the keto page with "Read full analysis →"
 
 ## Key Search Sources
 
@@ -207,17 +253,22 @@ src/
 │   ├── drugs/
 │   │   ├── index.astro      (drug articles index, grouped by phase)
 │   │   └── [id].astro       (dynamic route → individual drug article pages)
+│   ├── research/
+│   │   ├── index.astro      (keto research index, grouped by type)
+│   │   └── [id].astro       (dynamic route → individual study pages)
 │   ├── therapies.astro      (therapeutic research dashboard)
-│   └── keto.astro           (dedicated keto research page)
+│   └── keto.astro           (dedicated keto overview page)
 ├── components/
 │   ├── DrugCard.astro       (renders one drug entry, links to article page)
 │   ├── PipelineTracker.astro (phase overview visualization)
 │   ├── TherapyCard.astro    (renders one therapy entry)
+│   ├── NewsletterSignup.astro (Kit form, compact or full-width mode)
 │   ├── Header.astro         (navigation)
 │   └── Footer.astro
 ├── data/
 │   ├── drugs.json           ← UPDATE THIS (trial data)
 │   ├── drug-articles.json   ← UPDATE THIS (article content per drug)
+│   ├── keto-studies.json    ← UPDATE THIS (keto/metabolic research)
 │   └── therapies.json       ← UPDATE THIS
 ├── layouts/
 │   └── BaseLayout.astro

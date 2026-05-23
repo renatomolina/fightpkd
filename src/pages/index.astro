@@ -2,11 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import drugs from '../data/drugs.json';
 import therapies from '../data/therapies.json';
+import ketoStudies from '../data/keto-studies.json';
 
 const recruitingCount = drugs.filter(d => d.status === 'recruiting').length;
 const totalDrugs = drugs.length;
 const ongoingStudies = therapies.filter(t => t.status === 'in_progress').length;
-const lastUpdated = 'May 21, 2026';
+const ketoStudyCount = Object.keys(ketoStudies).length;
+const lastUpdated = 'May 23, 2026';
 ---
 
 <BaseLayout title="Home" description="PKD Cure Tracker — Tracking the drug development pipeline and therapeutic research for Polycystic Kidney Disease patients.">
@@ -118,17 +120,24 @@ const lastUpdated = 'May 21, 2026';
       </div>
 
       <div class="bg-gradient-to-br from-accent-50 to-accent-100/50 rounded-xl p-8 border border-accent-200">
-        <h2 class="text-xl font-semibold text-gray-900 mb-3">Keto Research</h2>
+        <h2 class="text-xl font-semibold text-gray-900 mb-3">Keto & Metabolic Research</h2>
         <p class="text-gray-600 mb-4">
-          Explore the emerging evidence for ketogenic interventions in PKD — from the KETO-ADPKD trial
-          to KetoCitra supplements and preclinical evidence.
+          {ketoStudyCount} published studies on ketogenic interventions for PKD — including the first trial to show actual kidney volume decrease (Juntendo, WCN 2026).
         </p>
-        <a href="/keto" class="text-accent-600 hover:text-accent-700 font-medium text-sm inline-flex items-center gap-1">
-          Read the research
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </a>
+        <div class="flex flex-wrap gap-3">
+          <a href="/keto" class="text-accent-600 hover:text-accent-700 font-medium text-sm inline-flex items-center gap-1">
+            Overview
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+          <a href="/research" class="text-accent-600 hover:text-accent-700 font-medium text-sm inline-flex items-center gap-1">
+            All Studies
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </section>
