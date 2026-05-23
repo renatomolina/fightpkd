@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import drugs from '../data/drugs.json';
+import therapies from '../data/therapies.json';
+import ketoStudies from '../data/keto-studies.json';
+
+const recruitingDrugs = drugs.filter(d => d.status === 'recruiting');
+const recruitingTherapies = therapies.filter(t => t.status === 'in_progress' && t.nctId);
+const ketoEntries = Object.entries(ketoStudies) as [string, any][];
+const recruitingKeto = ketoEntries.filter(([_, s]) => s.status === 'recruiting');
+
+const totalRecruiting = recruitingDrugs.length + recruitingTherapies.length + recruitingKeto.length;
+---
+
+<BaseLayout title="Currently Recruiting Trials" description="PKD clinical trials currently recruiting patients. Find enrollment links and eligibility information.">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <header class="mb-10">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Currently Recruiting</h1>
+      <p class="text-lg text-gray-600">
+        {totalRecruiting} clinical trials actively seeking PKD patients. Links go directly to ClinicalTrials.gov enrollment pages.
+      </p>
+    </header>
+
+    <!-- How to enroll -->
+    <div class="bg-primary-50 border border-primary-200 rounded-xl p-5 mb-10">
+      <div class="flex gap-3">
+        <svg class="w-5 h-5 text-primary-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div>
+          <p class="text-sm text-primary-900 font-medium mb-1">How to enroll in a clinical trial</p>
+          <p class="text-sm text-primary-800">Click the "View on ClinicalTrials.gov" link for any trial below to see eligibility criteria, locations, and contact information. Always discuss participation with your nephrologist first.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recruiting Drug Trials -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+        <span class="w-3 h-3 bg-emerald-500 rounded-full"></span>
+        Drug Trials ({recruitingDrugs.length})
+      </h2>
+      <p class="text-sm text-gray-500 mb-5">Pharmaceutical interventions actively enrolling PKD patients</p>
+      <div class="space-y-4">
+        {recruitingDrugs.map((drug) => (
+          <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-emerald-200 transition-colors">
+            <div class="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                  <a href={`/drugs/${drug.id}`} class="font-semibold text-gray-900 hover:text-primary-600 transition-colors">{drug.name}</a>
+                  <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">Phase {drug.phase}</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-2">{drug.mechanism.split('—')[0].trim()}</p>
+                <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                  <span>{drug.company}</span>
+                  <span>{drug.trialName}</span>
+                  {drug.participants > 0 && <span>{drug.participants} participants</span>}
+                  {drug.estimatedCompletion && <span>Est. completion: {drug.estimatedCompletion}</span>}
+                </div>
+              </div>
+              <div class="flex flex-col gap-2 shrink-0">
+                {drug.nctId && (
+                  <a href={`https://clinicaltrials.gov/study/${drug.nctId}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    View on ClinicalTrials.gov
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Recruiting Therapy Trials -->
+    {recruitingTherapies.length > 0 && (
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+          <span class="w-3 h-3 bg-purple-500 rounded-full"></span>
+          Therapy & Lifestyle Trials ({recruitingTherapies.length})
+        </h2>
+        <p class="text-sm text-gray-500 mb-5">Non-drug interventional studies enrolling patients</p>
+        <div class="space-y-4">
+          {recruitingTherapies.map((therapy) => (
+            <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-purple-200 transition-colors">
+              <div class="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <a href={therapy.link || '/therapies'} class="font-semibold text-gray-900 hover:text-primary-600 transition-colors">{therapy.name}</a>
+                  </div>
+                  <p class="text-sm text-gray-600 mb-2">{therapy.resultsSummary}</p>
+                  <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                    <span>{therapy.institution}</span>
+                    <span>{therapy.researchers}</span>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2 shrink-0">
+                  {therapy.nctId && (
+                    <a href={`https://clinicaltrials.gov/study/${therapy.nctId}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                      View on ClinicalTrials.gov
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Recruiting Keto/Metabolic Trials -->
+    {recruitingKeto.length > 0 && (
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+          <span class="w-3 h-3 bg-teal-500 rounded-full"></span>
+          Metabolic Intervention Trials ({recruitingKeto.length})
+        </h2>
+        <p class="text-sm text-gray-500 mb-5">Ketogenic and metabolic studies seeking participants</p>
+        <div class="space-y-4">
+          {recruitingKeto.map(([id, study]) => (
+            <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-teal-200 transition-colors">
+              <div class="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <a href={`/research/${id}`} class="font-semibold text-gray-900 hover:text-primary-600 transition-colors">{study.title}</a>
+                  </div>
+                  <p class="text-sm text-gray-600 mb-2">{study.subtitle}</p>
+                  <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                    <span>{study.institution}</span>
+                    <span>{study.authors.join(', ')}</span>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2 shrink-0">
+                  {study.design.includes('NCT') && (
+                    <a href={`https://clinicaltrials.gov/study/${study.design.match(/NCT\d+/)?.[0]}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                      View on ClinicalTrials.gov
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Disclaimer -->
+    <div class="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-4">
+      <p class="text-xs text-amber-800">
+        <strong>Disclaimer:</strong> Enrollment links direct to ClinicalTrials.gov, where you can find full eligibility criteria and site locations. Meeting eligibility criteria does not guarantee enrollment. Always consult your nephrologist before participating in a clinical trial.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
