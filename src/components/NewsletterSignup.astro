@@ -90,12 +90,18 @@ const formId = 'cf6e1497b0';
 
       fetch('https://app.kit.com/forms/' + formId + '/subscriptions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: 'email_address=' + encodeURIComponent(email)
-      }).then(function() {
-        var wrap = form.closest('.newsletter-wrap');
-        wrap.querySelector('.newsletter-form').classList.add('hidden');
-        wrap.querySelector('.newsletter-success').classList.remove('hidden');
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email_address: email })
+      }).then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        if (data.status === 'success') {
+          var wrap = form.closest('.newsletter-wrap');
+          wrap.querySelector('.newsletter-form').classList.add('hidden');
+          wrap.querySelector('.newsletter-success').classList.remove('hidden');
+        } else {
+          throw new Error('failed');
+        }
       }).catch(function() {
         btn.textContent = 'Subscribe';
         btn.disabled = false;
