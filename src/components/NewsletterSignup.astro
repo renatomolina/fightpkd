@@ -9,30 +9,34 @@ const formId = 'cf6e1497b0';
 
 {compact ? (
   <div class="bg-primary-50 border border-primary-200 rounded-xl p-5">
-    <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-      <div class="flex-1">
-        <p class="font-medium text-gray-900 text-sm">Stay updated on PKD research</p>
-        <p class="text-xs text-gray-600 mt-0.5">Get notified when new drugs enter trials or results are published.</p>
-      </div>
-      <form
-        action={`https://app.kit.com/forms/${formId}/subscriptions`}
-        method="post"
-        class="flex gap-2"
-      >
-        <input
-          type="email"
-          name="email_address"
-          placeholder="Your email"
-          required
-          class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent w-48"
-        />
-        <button
-          type="submit"
-          class="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors shrink-0"
+    <div class="newsletter-wrap">
+      <div class="newsletter-form flex flex-col sm:flex-row sm:items-center gap-3">
+        <div class="flex-1">
+          <p class="font-medium text-gray-900 text-sm">Stay updated on PKD research</p>
+          <p class="text-xs text-gray-600 mt-0.5">Get notified when new drugs enter trials or results are published.</p>
+        </div>
+        <form
+          data-kit-form={formId}
+          class="flex gap-2"
         >
-          Subscribe
-        </button>
-      </form>
+          <input
+            type="email"
+            name="email_address"
+            placeholder="Your email"
+            required
+            class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent w-48"
+          />
+          <button
+            type="submit"
+            class="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors shrink-0"
+          >
+            Subscribe
+          </button>
+        </form>
+      </div>
+      <div class="newsletter-success hidden">
+        <p class="text-sm font-medium text-emerald-700">Thanks for subscribing! Check your email to confirm.</p>
+      </div>
     </div>
   </div>
 ) : (
@@ -43,27 +47,60 @@ const formId = 'cf6e1497b0';
         <p class="text-sm text-gray-600 mb-5">
           Get notified when new drugs enter clinical trials, trial results are published, or approved treatments change.
         </p>
-        <form
-          action={`https://app.kit.com/forms/${formId}/subscriptions`}
-          method="post"
-          class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto"
-        >
-          <input
-            type="email"
-            name="email_address"
-            placeholder="Enter your email"
-            required
-            class="flex-1 px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-          />
-          <button
-            type="submit"
-            class="px-5 py-2.5 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors shrink-0"
-          >
-            Subscribe
-          </button>
-        </form>
+        <div class="newsletter-wrap">
+          <div class="newsletter-form">
+            <form
+              data-kit-form={formId}
+              class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto"
+            >
+              <input
+                type="email"
+                name="email_address"
+                placeholder="Enter your email"
+                required
+                class="flex-1 px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              />
+              <button
+                type="submit"
+                class="px-5 py-2.5 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors shrink-0"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+          <div class="newsletter-success hidden">
+            <p class="text-sm font-medium text-emerald-700 mt-3">Thanks for subscribing! Check your email to confirm.</p>
+          </div>
+        </div>
         <p class="text-xs text-gray-400 mt-3">No spam. Unsubscribe anytime.</p>
       </div>
     </div>
   </section>
 )}
+
+<script is:inline>
+  document.querySelectorAll('form[data-kit-form]').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var formId = form.getAttribute('data-kit-form');
+      var email = form.querySelector('input[name="email_address"]').value;
+      var btn = form.querySelector('button[type="submit"]');
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+
+      fetch('https://app.kit.com/forms/' + formId + '/subscriptions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'email_address=' + encodeURIComponent(email)
+      }).then(function() {
+        var wrap = form.closest('.newsletter-wrap');
+        wrap.querySelector('.newsletter-form').classList.add('hidden');
+        wrap.querySelector('.newsletter-success').classList.remove('hidden');
+      }).catch(function() {
+        btn.textContent = 'Subscribe';
+        btn.disabled = false;
+        alert('Something went wrong. Please try again.');
+      });
+    });
+  });
+</script>
