@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
 import drugs from '../../data/drugs.json';
 import articles from '../../data/drug-articles.json';
 
@@ -196,6 +197,11 @@ const pColor = phaseColors[drug.phase] || 'bg-gray-100 text-gray-800 border-gray
         View Pipeline Dashboard
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
       </a>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="mt-8">
+      <NewsletterSignup compact />
     </div>
 
     <!-- Disclaimer -->

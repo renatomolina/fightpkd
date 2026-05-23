@@ -1,0 +1,69 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+const formId = 'cf6e1497b0';
+---
+
+{compact ? (
+  <div class="bg-primary-50 border border-primary-200 rounded-xl p-5">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+      <div class="flex-1">
+        <p class="font-medium text-gray-900 text-sm">Stay updated on PKD research</p>
+        <p class="text-xs text-gray-600 mt-0.5">Get notified when new drugs enter trials or results are published.</p>
+      </div>
+      <form
+        action={`https://app.kit.com/forms/${formId}/subscriptions`}
+        method="post"
+        class="flex gap-2"
+      >
+        <input
+          type="email"
+          name="email_address"
+          placeholder="Your email"
+          required
+          class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent w-48"
+        />
+        <button
+          type="submit"
+          class="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors shrink-0"
+        >
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </div>
+) : (
+  <section class="bg-gradient-to-br from-primary-50 to-accent-50 border-t border-primary-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="max-w-xl mx-auto text-center">
+        <h2 class="text-xl font-bold text-gray-900 mb-2">Stay Updated on PKD Research</h2>
+        <p class="text-sm text-gray-600 mb-5">
+          Get notified when new drugs enter clinical trials, trial results are published, or approved treatments change.
+        </p>
+        <form
+          action={`https://app.kit.com/forms/${formId}/subscriptions`}
+          method="post"
+          class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto"
+        >
+          <input
+            type="email"
+            name="email_address"
+            placeholder="Enter your email"
+            required
+            class="flex-1 px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          />
+          <button
+            type="submit"
+            class="px-5 py-2.5 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors shrink-0"
+          >
+            Subscribe
+          </button>
+        </form>
+        <p class="text-xs text-gray-400 mt-3">No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+)}
