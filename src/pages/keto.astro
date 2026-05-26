@@ -71,6 +71,48 @@ const statusColors: Record<string, string> = {
           </p>
         </section>
 
+        <!-- Active Clinical Trials Overview -->
+        <section id="active-trials" class="mb-12">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Active Clinical Trials</h2>
+          <p class="text-gray-700 mb-5">
+            There are currently four clinical trials investigating ketogenic interventions for ADPKD — the most activity this field has ever seen.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="#juntendo" class="bg-white border border-gray-200 rounded-lg p-4 hover:border-emerald-300 hover:shadow-sm transition-all group">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Interim Results</span>
+              </div>
+              <h3 class="font-semibold text-gray-900 group-hover:text-emerald-700 transition-colors">Juntendo University</h3>
+              <p class="text-sm text-gray-500 mt-1">KetoCitra + Ren-Nu &middot; &gt;50 patients &middot; Tokyo</p>
+              <p class="text-xs text-emerald-700 font-medium mt-2">First trial to shrink kidneys in ADPKD</p>
+            </a>
+            <a href="#ohio-state" class="bg-white border border-gray-200 rounded-lg p-4 hover:border-emerald-300 hover:shadow-sm transition-all group">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Recruiting</span>
+              </div>
+              <h3 class="font-semibold text-gray-900 group-hover:text-emerald-700 transition-colors">Ohio State / Jeff Volek</h3>
+              <p class="text-sm text-gray-500 mt-1">Keto diet alone &middot; 20 patients &middot; 52 weeks</p>
+              <p class="text-xs text-gray-500 mt-2">DoD-funded &middot; Continuous ketone monitoring</p>
+            </a>
+            <a href="/research/cleveland-clinic" class="bg-white border border-gray-200 rounded-lg p-4 hover:border-emerald-300 hover:shadow-sm transition-all group">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Recruiting</span>
+              </div>
+              <h3 class="font-semibold text-gray-900 group-hover:text-emerald-700 transition-colors">Cleveland Clinic</h3>
+              <p class="text-sm text-gray-500 mt-1">KetoCitra + Ren-Nu &middot; 20 patients &middot; 3 months</p>
+              <p class="text-xs text-gray-500 mt-2">Independent academic validation</p>
+            </a>
+            <div class="bg-white border border-gray-200 rounded-lg p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Recruiting</span>
+              </div>
+              <h3 class="font-semibold text-gray-900">KETO-CKD (Denmark)</h3>
+              <p class="text-sm text-gray-500 mt-1">Exogenous ketones &middot; 14 patients &middot; Crossover RCT</p>
+              <p class="text-xs text-gray-500 mt-2">Only double-blinded ketone trial in PKD</p>
+            </div>
+          </div>
+        </section>
+
         <!-- Juntendo Breakthrough -->
         <section id="juntendo" class="mb-12">
           <h2 class="text-2xl font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Juntendo University Trial (2025–2026)</h2>
@@ -503,7 +545,8 @@ const statusColors: Record<string, string> = {
           <h2 class="text-sm font-semibold text-gray-900 mb-3">On this page</h2>
           <ul class="space-y-2 text-sm">
             <li><a href="#rationale" class="text-gray-600 hover:text-primary-600 transition-colors">Scientific Rationale</a></li>
-            <li><a href="#juntendo" class="text-gray-600 hover:text-primary-600 transition-colors font-medium text-primary-700">Juntendo Trial</a></li>
+            <li><a href="#active-trials" class="text-gray-600 hover:text-primary-600 transition-colors font-medium text-primary-700">Active Trials (4)</a></li>
+            <li><a href="#juntendo" class="text-gray-600 hover:text-primary-600 transition-colors">Juntendo Trial</a></li>
             <li><a href="#ohio-state" class="text-gray-600 hover:text-primary-600 transition-colors">Ohio State / Volek</a></li>
             <li><a href="#keto-adpkd" class="text-gray-600 hover:text-primary-600 transition-colors">KETO-ADPKD Trial</a></li>
             <li><a href="#reset-pkd" class="text-gray-600 hover:text-primary-600 transition-colors">RESET-PKD Pilot</a></li>
